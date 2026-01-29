@@ -40,8 +40,8 @@ struct LandingScreen: View {
 
     }
 }
-#Preview {
-    NavigationStack {
-            LandingScreen()
-        }
-}
+//#Preview {
+//    NavigationStack {
+//            LandingScreen()
+//        }
+//}
