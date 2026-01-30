@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct CityListView: View {
+    
 
     @StateObject private var viewModel = CityListViewModel()
 

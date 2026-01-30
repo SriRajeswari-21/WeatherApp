@@ -23,11 +23,20 @@ struct LocationDetailView: View {
                 .foregroundColor(.white)
 
             // Weather Icon
-            Image(systemName: location.weather.icon)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 120, height: 120)
-                .foregroundColor(.yellow)
+            if let weather = viewModel.weather {
+                let icon = Weather(
+                    weatherCode: weather.current.weatherCode,
+                    isDay: weather.current.isDay == 1
+                ).icon
+
+                Image(systemName: icon)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 120, height: 120)
+                    .foregroundColor(.yellow)
+            }
+
+               
 
             // Temperature (API driven)
             if viewModel.isLoading {
@@ -88,7 +97,7 @@ struct LocationDetailView: View {
                                 .font(.title2)
 
                             Text(
-                                "\(weather.current.rain) \(weather.currentUnits.rain)"
+                                "\(Int(weather.current.rain)) \(weather.currentUnits.rain)"
                             )
                             .font(.headline)
 
@@ -133,13 +142,13 @@ struct LocationDetailView: View {
             }
 
             // Description (still dummy text)
-            Text("""
-            A warm breeze drifted through the streets as the afternoon sun hovered behind a veil of scattered clouds. In the north, the air felt dry and dusty, while the southern coast carried the familiar scent of moisture from the sea. Somewhere in the distance, dark monsoon clouds gathered slowly, hinting at an evening shower.
-            """)
-            .font(.body)
-            .foregroundColor(.white.opacity(0.7))
-            .padding(.horizontal)
-            .multilineTextAlignment(.leading)
+//            Text("""
+//            A warm breeze drifted through the streets as the afternoon sun hovered behind a veil of scattered clouds. In the north, the air felt dry and dusty, while the southern coast carried the familiar scent of moisture from the sea. Somewhere in the distance, dark monsoon clouds gathered slowly, hinting at an evening shower.
+//            """)
+//            .font(.body)
+//            .foregroundColor(.white.opacity(0.7))
+//            .padding(.horizontal)
+//            .multilineTextAlignment(.leading)
 
             Spacer()
         }
