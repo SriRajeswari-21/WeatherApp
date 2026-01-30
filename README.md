@@ -2,6 +2,23 @@
 
 A modern **SwiftUI Weather App** that displays live weather information for multiple cities with a clean UI, smooth navigation, persistent storage, and a polished iOS experience.
 
+Launch Screen
+
+<img width="200" height="500" alt="Simulator Screenshot - iPhone 17 Pro - 2026-01-29 at 23 12 54" src="https://github.com/user-attachments/assets/c001fed3-3fd8-45f8-ac76-8c68b16e642f" />
+
+Landing Screen
+
+<img width="200" height="500" alt="Simulator Screenshot - iPhone 17 Pro - 2026-01-29 at 23 12 31" src="https://github.com/user-attachments/assets/a8f19ec8-c70e-4ff0-af85-ab4c5e40633d" />
+
+ListScreen
+
+<img width="200" height="500" alt="Simulator Screenshot - iPhone 17 Pro - 2026-01-23 at 03 28 50" src="https://github.com/user-attachments/assets/afcc6327-e1dc-4cad-bb9f-7f69f42e05c1" />
+
+DetailScreen
+
+<img width="200" height="500" alt="Simulator Screenshot - iPhone 17 Pro - 2026-01-27 at 01 40 46" src="https://github.com/user-attachments/assets/f947ddf4-e092-4cef-955e-58911a120ad4" />
+
+
 ---
 
 ## 📱 Features
