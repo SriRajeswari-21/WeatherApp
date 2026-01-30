@@ -35,6 +35,8 @@ struct CityListView: View {
             }
             .listStyle(.plain)
             .scrollContentBackground(.hidden)   // 👈 KEY LINE
+        }.onAppear {
+            viewModel.fetchLocations()
         }
         .background(Color("BGcolor"))
         .navigationBarTitleDisplayMode(.inline)

@@ -1,20 +1,10 @@
-//
-//  PersistenceController.swift
-//  Weather
-//
-//  Created by rentamac on 1/28/26.
-//
-
-import Foundation
 import Foundation
 import CoreData
 
 final class PersistenceController {
 
-    // MARK: - Singleton
     static let shared = PersistenceController()
 
-    // MARK: - Core Data Stack
     let container: NSPersistentContainer
 
     private init() {
@@ -42,7 +32,8 @@ final class PersistenceController {
         name: String,
         latitude: Double,
         longitude: Double,
-        temperature: Double
+        temperature: Double,weatherCode: Int,
+        isDay:Bool
     ) {
         let location = WeatherLocation(context: context)
         location.id = UUID()
@@ -50,9 +41,13 @@ final class PersistenceController {
         location.latitude = latitude
         location.longitude = longitude
         location.temperature = temperature
-        location.isSynced = true
-        location.updatedAt = Date()
 
+       
+        location.weatherCode = Int16(weatherCode)
+        
+        location.isDay = isDay
+
+        location.updatedAt = Date()
         save()
     }
 
@@ -62,24 +57,20 @@ final class PersistenceController {
         request.sortDescriptors = [
             NSSortDescriptor(key: "updatedAt", ascending: false)
         ]
-
         return (try? context.fetch(request)) ?? []
     }
 
-    // MARK: - UPDATE
+    // MARK: - UPDATE (IMPORTANT)
     func updateLocation(
         _ location: WeatherLocation,
-        temperature: Double
+        temperature: Double,
+        weatherCode: Int,
+        isDay: Bool
     ) {
         location.temperature = temperature
+        location.weatherCode = Int16(weatherCode)
+        location.isDay = isDay
         location.updatedAt = Date()
-        location.isSynced = true
-        save()
-    }
-
-    // MARK: - DELETE
-    func deleteLocation(_ location: WeatherLocation) {
-        context.delete(location)
         save()
     }
 }

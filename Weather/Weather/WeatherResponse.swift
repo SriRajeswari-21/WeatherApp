@@ -34,6 +34,8 @@ struct Current: Codable {
     let relativeHumidity2M: Int
     let rain: Double
     let windSpeed10M: Double
+    let weatherCode: Int
+       let isDay: Int   // 1 = day, 0 = night
 
     enum CodingKeys: String, CodingKey {
         case time, interval
@@ -41,6 +43,8 @@ struct Current: Codable {
         case relativeHumidity2M = "relative_humidity_2m"
         case rain
         case windSpeed10M = "wind_speed_10m"
+        case weatherCode = "weather_code"
+                case isDay = "is_day"
     }
 }
 

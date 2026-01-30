@@ -46,7 +46,10 @@ final class LocationDetailViewModel: ObservableObject {
                 name: locationName,
                 latitude: latitude,
                 longitude: longitude,
-                temperature: response.current.temperature2M
+                temperature: response.current.temperature2M,
+                weatherCode: response.current.weatherCode,
+                isDay: response.current.isDay == 1
+                
             )
 
         } catch {
@@ -61,7 +64,9 @@ final class LocationDetailViewModel: ObservableObject {
         name: String,
         latitude: Double,
         longitude: Double,
-        temperature: Double
+        temperature: Double,
+        weatherCode: Int,
+        isDay: Bool
     ) {
 
         let locations = persistenceController.fetchLocations()
@@ -72,7 +77,9 @@ final class LocationDetailViewModel: ObservableObject {
             // UPDATE
             persistenceController.updateLocation(
                 existingLocation,
-                temperature: temperature
+                temperature: temperature,
+                weatherCode: weatherCode,
+                isDay: isDay
             )
         } else {
             // CREATE
@@ -80,7 +87,9 @@ final class LocationDetailViewModel: ObservableObject {
                 name: name,
                 latitude: latitude,
                 longitude: longitude,
-                temperature: temperature
+                temperature: temperature,
+                weatherCode: weatherCode,
+                isDay: isDay
             )
         }
     }

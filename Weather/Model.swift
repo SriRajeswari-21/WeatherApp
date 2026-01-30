@@ -1,23 +1,69 @@
 import Foundation
 
+//enum Weather {
+//    case sunny
+//    case foggy
+//    case snow
+//    case rainy
+//    case windy
+//
+//    var icon: String {
+//        switch self {
+//        case .sunny: return "sun.max.fill"
+//        case .foggy: return "cloud.fog.fill"
+//        case .snow: return "snowflake"
+//        case .rainy: return "cloud.rain.fill"
+//        case .windy: return "wind"
+//        }
+//    }
+//
+//    
 enum Weather {
-    case sunny
-    case foggy
+    case clear(isDay: Bool)
+    case cloudy(isDay: Bool)
+    case fog
+    case rain(isDay: Bool)
     case snow
-    case rainy
-    case windy
+    case thunderstorm(isDay: Bool)
+    case unknown
 
-    var icon: String {
-        switch self {
-        case .sunny: return "sun.max.fill"
-        case .foggy: return "cloud.fog.fill"
-        case .snow: return "snowflake"
-        case .rainy: return "cloud.rain.fill"
-        case .windy: return "wind"
+    init(weatherCode: Int, isDay: Bool) {
+        switch weatherCode {
+        case 0:
+            self = .clear(isDay: isDay)
+        case 1, 2:
+            self = .cloudy(isDay: isDay)
+        case 3,45, 48:
+            self = .fog
+        case 51...67, 80...82:
+            self = .rain(isDay: isDay)
+        case 71...77, 85...86:
+            self = .snow
+        case 95...99:
+            self = .thunderstorm(isDay: isDay)
+        default:
+            self = .unknown
         }
     }
 
-    
+    var icon: String {
+        switch self {
+        case .clear(let isDay):
+            return isDay ? "sun.max.fill" : "moon.stars.fill"
+        case .cloudy(let isDay):
+            return isDay ? "cloud.sun.fill" : "cloud.moon.fill"
+        case .fog:
+            return "cloud.fog.fill"
+        case .rain(let isDay):
+            return isDay ? "cloud.rain.fill" : "cloud.moon.rain.fill"
+        case .snow:
+            return "snowflake"
+        case .thunderstorm(let isDay):
+            return isDay ? "cloud.bolt.rain.fill" : "cloud.moon.bolt.fill"
+        case .unknown:
+            return "questionmark"
+        }
+    }
 }
 
 struct Temperature {
