@@ -14,6 +14,20 @@ struct CityListView: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(12)
                 .padding(.horizontal)
+            if viewModel.isAdding {
+                                HStack {
+                                    TextField("Enter city name", text: $viewModel.searchLocation)
+                                        .textFieldStyle(.roundedBorder)
+
+                                    Button("Add") {
+                                        Task {
+                                            await viewModel.addCity()
+                                            viewModel.isAdding = false
+                                        }
+                                    }
+                                }
+                                .padding()
+                            }
 
             List(viewModel.locations) { location in
                 NavigationLink(destination: LocationDetailView(location: location)) {
@@ -46,7 +60,16 @@ struct CityListView: View {
                 Text("Locations")
                     .foregroundColor(.white)
                     .font(.headline)
+                
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        viewModel.isAdding.toggle()
+                    } label: {
+                        Image(systemName: "plus")
+                            .foregroundColor(.white)
+                    }
+                }
         }
 // 👈 your app bg
        // .navigationTitle("Locations").foregroundStyle(Color.white)

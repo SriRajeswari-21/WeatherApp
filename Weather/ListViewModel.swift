@@ -12,11 +12,15 @@ import Combine
 final class CityListViewModel: ObservableObject {
 
     @Published var searchText: String = ""
+    @Published var searchLocation: String = ""
     @Published private(set) var locations: [Location] = []
+    @Published var isAdding: Bool = false
+       @Published var errorMessage: String?
 
     private let persistenceController = PersistenceController.shared
+    private let geocodingService: GeocodingServiceProtocol
 
-    private let defaultCities: [(String, Double, Double)] = [
+     private var defaultCities: [(String, Double, Double)] = [
         // 🇮🇳 India
         ("Mumbai", 19.0760, 72.8777),
         ("New Delhi", 28.6139, 77.2090),
@@ -46,10 +50,15 @@ final class CityListViewModel: ObservableObject {
         ("Ushuaia", -54.8019, -68.3030),
         ("Antarctica", -82.8628, 135.0000)
     ]
+   // print(defaultCities)
+   
 
-    init() {
+
+    init(geocodingService: GeocodingServiceProtocol = GeocodingService()) {
+        self.geocodingService = geocodingService
         addDefaultCitiesIfNeeded()
         fetchLocations()
+       
     }
 
     func fetchLocations() {
@@ -99,6 +108,33 @@ final class CityListViewModel: ObservableObject {
 
         persistenceController.save()
     }
+    func addCity() async {
+        guard !searchLocation.isEmpty else { return }
+        
+        do {
+            let result = try await geocodingService.fetchCoordinates(for: searchLocation)
+            
+            persistenceController.createLocation(name: result.name, latitude: result.latitude, longitude: result.longitude, temperature: 0, weatherCode: 0, isDay: false)
+//            (
+//                name: result.name,
+//                latitude: result.latitude,
+//                longitude: result.longitude
+//            )
+        defaultCities.append((result.name, result.latitude, result.longitude))
+        defaultCities.forEach { city in
+            print("City: \(city.0), Lat: \(city.1), Lon: \(city.2)")
+        }
+        //addDefaultCitiesIfNeeded()
+        
+        searchLocation = ""
+        fetchLocations()
+    
+
+           } catch {
+               errorMessage = "Could not find location"
+              // print(errorMessage)
+           }
+       }
 
 
     var filteredLocations: [Location] {
